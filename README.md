@@ -1,23 +1,33 @@
-# Nextra Docs Template 
+# AuroraBotics Docs
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+This is the source code for AuroraBotics documentation, accessable at [https://docs.aurorabotics.com](https://rtfm.aurorabotics.com).
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
+# Contributing
 
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+Contributions are always welcome, feel free to make changes and a pull request!
 
-## Quick Start
+# Local Setup
 
-Click the button to clone this repository and deploy it on Vercel:
+This project is built on [Next.js](https://nextjs.org/). You can run it on your machine, provided you have [Node.js](https://nodejs.org/en) and [pnpm](https://pnpm.io/).
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
+First, clone the repo:
+```bash
+git clone https://github.com/aurorabotics/docs.git
+```
 
-## Local Development
+Make sure you are inside the folder:
+```bash
+cd docs
+```
 
-First, run `pnpm i` to install the dependencies.
+Install dependencies:
+```bash
+pnpm install
+```
 
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
+Then, run the project:
+```bash
+pnpm run dev
+```
 
-## License
-
-This project is licensed under the MIT License.
+You can then visit [http://localhost:3000](http://localhost:3000) to see it in action.
