@@ -20,9 +20,22 @@ const config: DocsThemeConfig = {
     const { asPath } = useRouter()
     if (asPath !== '/') {
       return {
-        titleTemplate: '%s - AuroraBotics Docs'
+        titleTemplate: '%s - AuroraBotics'
       }
     }
+  },
+  head: function useHead() {
+    const { title } = useConfig();
+    const { asPath } = useRouter();
+    return (
+      <>
+        <meta content={ title ? title + " - AuroraBotics" : "AuroraBotics"} property="og:title" />
+        <meta content="AuroraBotics Documentation." property="og:description" />
+        <meta content={"https://docs.aurorabotics.com" + asPath} property="og:url" />
+        <meta content="/logo.png" property="og:image" />
+        <meta content="#8e44ad" data-react-helmet="true" name="theme-color" />
+      </>
+    );
   },
   banner: {
     dismissible: false,
