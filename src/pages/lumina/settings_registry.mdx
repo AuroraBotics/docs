@@ -1,0 +1,20 @@
+Aurora uses an internal settings registry to decide how to operate.
+The following table describes the address, size, and how each setting causes the device to operate:
+
+| Setting Name        | Registry Index | Data Size | Default Value | Value Range | Mutability   | Notes                                                                                                                                                 |
+| ------------------- | -------------- | --------- | ------------- | ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CAN ID              | 0              | 1 Byte    | 0             | [0,63]      | Read / Write | Only the last 6 bits are used                                                                                                                         |
+| Firmware Version    | 1              | 4 Bytes   | N/A           | N/A         | Read Only    | Byte 0-1: Year, Byte 2: Rev, Byte 3: Patch                                                                                                            |
+| Flags               | 2              | 1 Byte    | 0             | N/A      | Read / Write | See [[#Flags]] for more info.                                                                                                                                     |
+| Status Frame Period | 3              | 2 Bytes   | `1,000`       | [0, 65535]  | Read / Write | The time in milliseconds between the periodic status frame.                                                                                           |
+| Power Output        | 4              | 1 Byte    | 0x00          | [0,31]      | Read / Write | Last 5 bits used; 1s bit controls port 1, 2s bit controls port 2, 4s bit controls port 3, etc. a 1 in a bit means the power for that port is enabled. |
+
+## Flags
+
+Aurora uses single-bit / boolean flags to determine how certain things are controlled. As expected a value of `1` results in `true` and `0` for `false`.
+Here is a diagram of the flag byte:
+
+| Bit 0 | Bit 1 | Bit 2 | Bit 3 | Bit 4 | Bit 5 | Bit 6 | Bit 7 |
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| [[Debug Mode]] | Res.  | Res.  | Res.  | Res.  | Res.  | Res.  | Res.  |
+
