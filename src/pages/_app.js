@@ -1,16 +1,18 @@
-import { Inter_Tight } from 'next/font/google'
+import { Inter, Fugaz_One, Inter_Tight } from 'next/font/google'
 
-const font = Inter_Tight({
+const inter = Inter_Tight({
     weight: ['400', '700'],
-    style: ['normal', 'italic'],
     subsets: ['latin'],
-    display: 'swap'
+    display: 'swap',
 })
+
+
+
 
 export default function MyApp({ Component, pageProps }) {
     return (
-        <main className={font.className}>
+        <main className={inter.className}>
             <Component {...pageProps} />
         </main>
-    )
+    );
 }

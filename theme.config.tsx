@@ -7,19 +7,11 @@ import styled from 'styled-components';
 const fugazOne = Fugaz_One({
   weight: '400',
   subsets: ['latin'],
+  display: 'swap'
 })
 
-const GradientTextWrapper = styled.span`
-  background: linear-gradient(0deg, #8e44ad, #3498db, #1abc9c);
-  -webkit-background-clip: text;
-  color: transparent;
-  display: inline;
-  font-weight: bold;
-  padding-left: 2px;
-`;
-
 const config: DocsThemeConfig = {
-  logo: <span className={fugazOne.className}><GradientTextWrapper>AuroraBotics</GradientTextWrapper></span>,
+  logo: <span className={fugazOne.className}>AuroraBotics</span>,
   docsRepositoryBase: 'https://github.com/aurorabotics/docs/tree/main',
   primaryHue: 282,
   primarySaturation: 61,
@@ -50,7 +42,7 @@ const config: DocsThemeConfig = {
     text: '⚠️ This website is currently under construction. ⚠️'
   },
   project: {
-    link: 'https://github.com/aurorabotics/docs',
+    link: 'https://github.com/aurorabotics/',
   },
   chat: {
     link: 'https://discord.gg/mtx6cuhVMt',
@@ -61,9 +53,7 @@ const config: DocsThemeConfig = {
   footer: {
     text: <span>
       GNU General Public License v3.0 {new Date().getFullYear()} ©{' '}
-      <a href="https://aurorabotics.com" target="_blank">
-        <GradientTextWrapper>AuroraBotics</GradientTextWrapper>
-      </a>
+      <a href="https://aurorabotics.com" target="_blank">AuroraBotics</a>
       .
     </span>
   },
