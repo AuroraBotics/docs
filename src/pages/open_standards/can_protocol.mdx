@@ -1,15 +1,63 @@
----
-tag: Bring-Up
-alias: aurora_can_protocol
----
+import {Callout} from 'nextra/components'
 
-This document describes the complete specifications for the CAN protocol used on the Aurora device.
+# CAN Protocol
 
-Aurora complies with the FRC arbitration ID standard, which is a standard derived from the CAN 2.0B spec which uses a 29 bit arbitration ID. More can be found about the CAN 2.0B specification [here](https://en.wikipedia.org/wiki/CAN_bus#Extended_frame_format) and the FRC standard [here](https://docs.wpilib.org/en/stable/docs/software/can-devices/can-addressing.html#frc-can-device-specifications).
+
+## The CAN Frame
+
+### CAN 2.0B Frame
+AuroraBotics devices use the the CAN 2.0B communication protocol to communicate with other devices.
+
+Here is an image of a CAN frame:
+![CAN bus frame](/CAN-bus-frame.png)
+<Callout type="info" emoji="ℹ">
+Note that the image shows an 11-bit identifier while CAN 2.0B specifies a 29-bit identifier
+</Callout>
+
+Here is the breakdown of a CAN frame:
+| Field name | Length (bits) | Purpose |
+| :- | :- | :- |
+| Start-of-frame | 1 | Denotes the start of frame transmission |
+| Identifier A (green) | 11 | First part of the (unique) identifier which also represents the message priority |
+| Substitute remote request (SRR) | 1 | Must be recessive (1) |
+| Identifier extension bit (IDE) | 1 | Must be recessive (1) for extended frame format with 29-bit identifiers |
+| Identifier B (green) | 18 | Second part of the (unique) identifier which also represents the message priority |
+| Remote transmission request (RTR) (blue)	| 1 |	Must be dominant (0) for data frames and recessive (1) for remote request frames (see Remote Frame, below) |
+| Reserved bits (r1, r0)	| 2 |	Reserved bits which must be set dominant (0), but accepted as either dominant or recessive |
+| Data length code (DLC) (yellow)	| 4 |	Number of bytes of data (0-8 bytes) |
+| Data field (red)	| 0-64 (0-8 bytes) | Data to be transmitted (length dictated by DLC field) |
+| CRC	| 15 |	Cyclic redundancy check |
+| CRC delimiter	| 1 |	Must be recessive (1) |
+| ACK slot	| 1 |	Transmitter sends recessive (1) and any receiver can assert a dominant (0) |
+| ACK delimiter	| 1 |	Must be recessive (1) |
+| End-of-frame (EOF)	| 7 |	Must be recessive (1) |
+| Inter-frame spacing (IFS)	| 3 |	Must be recessive (1) |
+
+### CAN over Serial Frame
+AuroraBotics devices also use [CAN over Serial](https://python-can.readthedocs.io/en/stable/interfaces/serial.html) in order to allow for control via AuroraSync.
+
+Here is an example CAN over Serial frame:
+| Start-of-frame | Timestamp | DLC | Arbitration ID | Payload | End-of-frame |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| 0xAA |0x66 0x73 0x00 0x00 | 0x08 | 0x01 0x00 0x00 0x00 | 0x11 0x22 0x33 0x44 0x55 0x66 0x77 0x88 | 0xBB |
+
+Here is the breakdown of a CAN over Serial frame:
+
+| | Start-of-frame | Timestamp | DLC | Arbitration ID | Payload | End-of-frame |
+| :- | :- | :- | :- | :- | :- | :- |
+| Length (Byte) | 1 | 4 | 1 | 4 | 0-8 | 1 |
+| Data type | Byte | Unsigned 32-bit integer | Unsigned 8-bit integer | Unsigned 32-bit integer | Byte | Byte |
+| Byte order | NA | Little-Endian | Little-Endian | Little-Endian | NA | NA |
+| Description | Must be 0xAA | milliseconds since start up of device | Length in Bytes of the payload | NA | NA | Must be 0xBB |
+
+
+They also comply with the [FRC arbitration ID standard](https://docs.wpilib.org/en/stable/docs/software/can-devices/can-addressing.html).
+
+
 
 **Device Type**
 * `01010` - Miscellaneous
-**Manufacturer Code** 
+**Manufacturer Code**
 * `00001000` - Team use
 **API**
 * `000000` - **System Level**
