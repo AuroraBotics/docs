@@ -33,87 +33,24 @@ Here is the breakdown of a CAN frame:
 | End-of-frame (EOF)	| 7 |	Must be recessive (1) |
 | Inter-frame spacing (IFS)	| 3 |	Must be recessive (1) |
 
-### CAN over Serial Frame
-AuroraBotics devices also use [CAN over Serial](https://python-can.readthedocs.io/en/stable/interfaces/serial.html) in order to allow for control via AuroraSync.
+### CAN over Serial / SLCAN
+AuroraBotics devices also use [SLCAN](https://python-can.readthedocs.io/en/stable/interfaces/slcan.html) in order to allow for CAN control over serial communication.
+SLCAN is also compatible with [socketCAN](https://www.kernel.org/doc/Documentation/networking/can.txt) (a CAN protocol for linux devices).
 
-Here is an example CAN over Serial frame:
-| Start-of-frame | Timestamp | DLC | Arbitration ID | Payload | End-of-frame |
-| :-: | :-: | :-: | :-: | :-: | :-: |
-| 0xAA |0x66 0x73 0x00 0x00 | 0x08 | 0x01 0x00 0x00 0x00 | 0x11 0x22 0x33 0x44 0x55 0x66 0x77 0x88 | 0xBB |
+Here is an example of a SLCAN frame:
+| | Start-of-Frame | Arbitration ID | DLC | Data | End-of-frame |
+| :- | :-: | :-: | :-: | :-: | :-: |
+| ASCII | 84 | 48, 48, 67, 48, 70, 70, 69, 69 | 56 | 48, 48, 49, 57, 48, 48, 48, 49, 48, 51, 48, 49, 48, 52, 48, 49 | 13 |
+| Data | T | 0x00C0FFEE | 8 | 0x0019000103010401 | CR |
+| Description | 1x 8-bit unsigned int describing frame type.<br/>`'t'` - normal frame,<br/>`'T'` - extended frame,<br/>`'r'` - remote frame,<br/>`'R'` - remote extended frame | 8x 8-bit unsigned ints - represents the arbitration ID in hex. | 1x 8-bit unsigned int - represents the DLC (data length code). | (2*DLC) 0-16x 8-bit unsigned ints - represents the payload in hex. | ASCII code for a carriage return. |
 
-Here is the breakdown of a CAN over Serial frame:
+## Arbitration ID
 
-| | Start-of-frame | Timestamp | DLC | Arbitration ID | Payload | End-of-frame |
-| :- | :- | :- | :- | :- | :- | :- |
-| Length (Byte) | 1 | 4 | 1 | 4 | 0-8 | 1 |
-| Data type | Byte | Unsigned 32-bit integer | Unsigned 8-bit integer | Unsigned 32-bit integer | Byte | Byte |
-| Byte order | NA | Little-Endian | Little-Endian | Little-Endian | NA | NA |
-| Description | Must be 0xAA | milliseconds since start up of device | Length in Bytes of the payload | NA | NA | Must be 0xBB |
+AuroraBotics devices use the [FRC arbitration ID standard](https://docs.wpilib.org/en/stable/docs/software/can-devices/can-addressing.html).
 
+This means that the arbitration ID is as follows:
 
-They also comply with the [FRC arbitration ID standard](https://docs.wpilib.org/en/stable/docs/software/can-devices/can-addressing.html).
-
-
-
-**Device Type**
-* `01010` - Miscellaneous
-**Manufacturer Code**
-* `00001000` - Team use
-**API**
-* `000000` - **System Level**
-	* `0000` - [[Status]]
-	* `0001` - [[Identify]]
-	* `0010` - Reserved
-	* `0011` - Reserved
-	* `0100` - [[Write Setting]]
-	* `0101` - [[Report Setting]]
-	* `0110` - Reserved
-	* `0111` - Reserved
-	* `1000` - [[Clear Sticky Faults]]
-	* `1001` - Reserved
-	* `1010` - Reserved
-	* `1011` - Reserved
-	* `1100` - Reserved
-	* `1101` - Reserved
-	* `1110` - Reserved
-	* `1111` - Reserved
-* `000001` - **Animation**
-	* `0000` - [[Set Animation]]
-	* `0001` - [[Get Animation]]
-	* `0010` - Reserved
-	* `0011` - Reserved
-	* `0100` - [[Remove Animation]]
-	* `0101` - Reserved
-	* `0110` - Reserved
-	* `0111` - Reserved
-	* `1000` - Reserved
-	* `1001` - Reserved
-	* `1010` - Reserved
-	* `1011` - Reserved
-	* `1100` - Reserved
-	* `1101` - Reserved
-	* `1110` - Reserved
-	* `1111` - Reserved
-* `000010` - **LED**
-	* `0000` - [[Register LEDs]]
-	* `0001` - Reserved
-	* `0010` - Reserved
-	* `0011` - Reserved
-	* `0100` - Reserved
-	* `0101` - Reserved
-	* `0110` - Reserved
-	* `0111` - Reserved
-	* `1000` - [[Set LEDs Color]]
-	* `1001` - Reserved
-	* `1010` - Reserved
-	* `1011` - Reserved
-	* `1100` - Reserved
-	* `1101` - Reserved
-	* `1110` - Reserved
-	* `1111` - Reserved
-* `000011` - `111111` - **Reserved**
-	* `0000` - `1111` Reserved
-**Device ID**
-* `000000` - `111111` - User assigned ID.
-
-
+Device Type - `01010` (10 - Miscellaneous) **or** `11111` (31 - Firmware Update)\
+Manufacturer - `00001000` (8 - Team Use)\
+API - See [API](/open_standards/can_protocol/API) for more info.\
+Device Number - `000000` to `111110` (`111111` reserved for device specific brodcast messages.)
