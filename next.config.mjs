@@ -13,7 +13,8 @@ import {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+    pageExtensions: ['md', 'mdx'],
+
 }
 
 const withMDX = createMDX({
