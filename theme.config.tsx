@@ -2,7 +2,6 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { DocsThemeConfig, useConfig } from 'nextra-theme-docs'
 import { Fugaz_One } from 'next/font/google'
-import styled from 'styled-components';
 
 const fugazOne = Fugaz_One({
   weight: '400',
@@ -24,22 +23,22 @@ const config: DocsThemeConfig = {
     }
   },
   head: function useHead() {
-    const { title } = useConfig();
+    const { title, frontMatter } = useConfig();
     const { asPath } = useRouter();
     return (
       <>
-        <link rel="icon" href="/favicon-32x32.png"/>
-        <meta content={ title || asPath !== '/' ? title + " - AuroraBotics" : "AuroraBotics"} property="og:title" />
-        <meta content="AuroraBotics Documentation." property="og:description" />
-        <meta content={"https://docs.aurorabotics.com" + asPath} property="og:url" />
-        <meta content="/AuroraBotics Logo - Square.png" property="og:image" />
-        <meta content="#8e44ad" data-react-helmet="true" name="theme-color" />
+        <script src="http://localhost:8097" />
+        <link rel="icon" href="/favicon-32x32.png" />
+        <meta property="og:title" content={title} />
+        <meta property="og:type" content="website" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="og:url" content={"https://aurorabotics.com" + asPath} />
+        <meta property="twitter:image" content="/AuroraBotics Logo - Square.png" />
+        <meta property="og:image" content="/AuroraBotics Logo - Square.png" />
+        <meta property="og:description" content={frontMatter.description || "AuroraBotics Documentation"} />
+        <meta property="theme-color" content="#D063FF" />
       </>
     );
-  },
-  banner: {
-    dismissible: false,
-    text: '⚠️ This website is currently under construction. ⚠️'
   },
   project: {
     link: 'https://github.com/aurorabotics/',
@@ -48,7 +47,9 @@ const config: DocsThemeConfig = {
     link: 'https://discord.gg/mtx6cuhVMt',
   },
   sidebar: {
-    toggleButton: true
+    toggleButton: true,
+    defaultMenuCollapseLevel: 1,
+    autoCollapse: true
   },
   footer: {
     text: <span>

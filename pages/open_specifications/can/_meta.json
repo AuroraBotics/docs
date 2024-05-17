@@ -1,0 +1,9 @@
+{
+    "status": "Status",
+    "identify": "Identify",
+    "clear_faults": "Clear Faults",
+    "set_flash": "Set Flash",
+    "get_flash": "Get Flash",
+    "report_flash": "Report Flash",
+    "reset_flash": "Reset Flash"
+}

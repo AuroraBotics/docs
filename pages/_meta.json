@@ -1,0 +1,15 @@
+{
+  "index": {
+    "title": "Welcome",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
+
+  "--- devices": {
+    "type": "separator",
+    "title": "Product Documentation"
+  },
+  "lumina": "Lumina",
+  "open_specifications": "Open Specifications"
+}

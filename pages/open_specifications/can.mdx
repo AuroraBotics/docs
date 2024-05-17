@@ -1,0 +1,80 @@
+import {Callout} from 'nextra/components'
+
+# CAN Bus
+
+AuroraBotics CAN enabled devices are capable of communicating on a CAN 2.0B bus.
+This document serves to describe the inner workings of the CAN bus, and to
+explain, in general, how AuroraBotics devices communicate across it.
+
+Any device-specific information will be in that devices documentation.
+
+## The CAN Frame
+
+### CAN 2.0B Frame
+AuroraBotics devices use the the CAN 2.0B communication protocol to communicate with other devices.
+
+Here is an image of a CAN frame:
+
+![CAN bus frame](/open_specifications/can/can-frame.png)
+
+> Image source from [Wikipedia](https://en.wikipedia.org/wiki/CAN_bus#Base_frame_format)
+
+<Callout type="info">
+Note that the image shows an 11-bit identifier while CAN 2.0B specifies a 29-bit identifier
+</Callout>
+
+Here is the breakdown of a CAN frame:
+| Field name | Length (bits) | Purpose |
+| :- | :- | :- |
+| Start-of-frame | 1 | Denotes the start of frame transmission |
+| Identifier A (green) | 11 | First part of the (unique) identifier which also represents the message priority |
+| Substitute remote request (SRR) | 1 | Must be recessive (1) |
+| Identifier extension bit (IDE) | 1 | Must be recessive (1) for extended frame format with 29-bit identifiers |
+| Identifier B (green) | 18 | Second part of the (unique) identifier which also represents the message priority |
+| Remote transmission request (RTR) (cyan)	| 1 |	Must be dominant (0) for data frames and recessive (1) for remote request frames (see Remote Frame, below) |
+| Reserved bits (r1, r0)	| 2 |	Reserved bits which must be set dominant (0), but accepted as either dominant or recessive |
+| Data length code (DLC) (yellow)	| 4 |	Number of bytes of data (0-8 bytes) |
+| Data field (red)	| 0-64 (0-8 bytes) | Data to be transmitted (length dictated by DLC field) |
+| CRC	| 15 |	Cyclic redundancy check |
+| CRC delimiter	| 1 |	Must be recessive (1) |
+| ACK slot	| 1 |	Transmitter sends recessive (1) and any receiver can assert a dominant (0) |
+| ACK delimiter	| 1 |	Must be recessive (1) |
+| End-of-frame (EOF)	| 7 |	Must be recessive (1) |
+| Inter-frame spacing (IFS)	| 3 |	Must be recessive (1) |
+
+{/* I wrote this in anticipation of using SLCAN but atm it is unused, so commenting it out. */}
+{/* ### CAN over Serial / SLCAN
+AuroraBotics devices also use [SLCAN](https://python-can.readthedocs.io/en/stable/interfaces/slcan.html) in order to allow for CAN control over serial communication.
+SLCAN is also compatible with [socketCAN](https://www.kernel.org/doc/Documentation/networking/can.txt) (a CAN protocol for linux devices).
+
+Here is an example of a SLCAN frame:
+| | Start-of-Frame | Arbitration ID | DLC | Data | End-of-frame |
+| :- | :-: | :-: | :-: | :-: | :-: |
+| ASCII | 84 | 48, 48, 67, 48, 70, 70, 69, 69 | 56 | 48, 48, 49, 57, 48, 48, 48, 49, 48, 51, 48, 49, 48, 52, 48, 49 | 13 |
+| Data | T | 0x00C0FFEE | 8 | 0x0019000103010401 | CR |
+| Description | 1x 8-bit unsigned int describing frame type.<br/>`'t'` - normal frame,<br/>`'T'` - extended frame,<br/>`'r'` - remote frame,<br/>`'R'` - remote extended frame | 8x 8-bit unsigned ints - represents the arbitration ID in hex. | 1x 8-bit unsigned int - represents the DLC (data length code). | (2*DLC) 0-16x 8-bit unsigned ints - represents the payload in hex. | ASCII code for a carriage return. | */}
+
+## Arbitration ID
+
+AuroraBotics devices use the [FRC arbitration ID standard](https://docs.wpilib.org/en/stable/docs/software/can-devices/can-addressing.html).
+
+This means that the arbitration ID is as follows:
+
+| Field | Value |
+| :- | :- |
+| Device Type | `0b01010` (10 - Miscellaneous) **or** `0b11111` (31 - Firmware Update) |
+| Manufacturer | `0b00001000` (8 - Team Use) (*AuroraBotics will have a manufacturer ID if/when devices are sold*) |
+| API | `0b0000000000` to `0b1111111111` See [API](#can-api) for more info |
+| Device Number | `0b000000` to `0b111110` (`0b111111` reserved for device specific brodcast messages) |
+
+## CAN API
+
+| Message | Class | Index | API | Data Length (Bytes) | Direction (Controller's POV) |
+| :- | :-: | :-: | :-: | :-: | :-: |
+| [Status](./can/status) | 0 | 0 | `0x0000` | 8 | Receive |
+| [Identify](./can/identify) | 0 |  1 | `0x0001` | 1 | Transmit |
+| [Clear Faults](./can/clear_faults) | 0 | 2 | `0x0002` | 0 | Transmit |
+| [Set Flash](./can/set_flash) | 1 | 0 | `0x0010` | 8 | Transmit |
+| [Get Flash](./can/get_flash) | 1 | 1 | `0x0011` | 1 | Transmit |
+| [Report Flash](./can/report_flash) | 1 | 2 | `0x0012` | 8 | Receive |
+| [Reset Flash](./can/reset_flash) | 1 | 3 | `0x0013` | 0 | Transmit |

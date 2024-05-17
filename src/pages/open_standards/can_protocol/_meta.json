@@ -1,8 +1,0 @@
-{
-    "status": "Status",
-    "identify": "identify",
-    "write_setting": "Write Setting",
-    "report_setting": "Report Setting",
-    "clear_sticky_faults": "Clear Sticky Faults",
-    "faults": "Faults"
-}
