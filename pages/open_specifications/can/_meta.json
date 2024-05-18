@@ -1,4 +1,8 @@
 {
+    "--- Frames": {
+        "title": "CAN Frames",
+        "type": "separator"
+    },
     "status": "Status",
     "identify": "Identify",
     "clear_faults": "Clear Faults",
