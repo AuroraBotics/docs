@@ -1,0 +1,17 @@
+# Set / Get Pixels Per Meter Frames
+
+The Set and Get Pixels Per Meter Frames are used to control the known spacing of the LED strip which Lumina controls.
+This allows for Lumina animations to be controlled via a specified velocity accurately.
+
+The Set and Get frames use different API indices, be sure to check [CAN](../can) for more info, the data for these frames however, is the same.
+
+## Data
+
+import { Callout } from "nextra/components";
+
+<Callout type="info">Note that only remote frames contain data, RTR frames will have zero data.</Callout>
+
+| Field | Start Bit | Data Length | Description |
+| :- | :-: | :-: | :- |
+| LED Strip Pixels Per Meter | 0 | 1 Bytes | The number of LEDs per meter (uint8) of the LED strip |
+

@@ -1,0 +1,24 @@
+{
+    "--- strip info": {
+        "title": "API Class: Strip Info",
+        "type": "separator"
+    },
+    "strip_length": "Set / Get Strip Length",
+    "ppm": "Set / Get Pixels Per Meter",
+    "strip_brightness": "Set / Get Strip Brightness",
+    "--- led / animation control": {
+        "title": "API Class: LED / Animation Control",
+        "type": "separator"
+    },
+    "leds_solid": "LEDs Solid",
+    "leds_rainbow": "LEDs Rainbow",
+    "leds_color_cycle": "LEDs Color Cycle",
+    "leds_chase": "LEDs Chase",
+    "leds_rainbow_chase": "LEDs Rainbow Chase",
+    "leds_comet": "LEDs Comet",
+    "leds_rainbow_comet": "LEDs Rainbow Comet",
+    "leds_pulse": "LEDs Pulse",
+    "leds_rainbow_pulse": "LEDs Rainbow Pulse",
+    "animation_sequence": "Animation Sequence",
+    "color_data": "Color Data"
+}

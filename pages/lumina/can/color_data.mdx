@@ -1,0 +1,28 @@
+# LEDs Data Frame
+
+The LEDs Data Frame is used to send color data to Lumina. This frame has no meaning when sent on its own, Lumina must be expecting
+
+## Data
+
+import { Tabs } from "nextra/components";
+
+<Tabs items={["RGB", "HSV"]}>
+<Tabs.Tab>
+| Field | Start Bit | Data Length | Data Type | Description |
+| :- | :-: | :-: | :-: | :- |
+| R value | 0 | 1 Byte | uint8 | The R value |
+| G value | 8 | 1 Byte | uint8 | The G value |
+| B value | 16 | 1 Byte | uint8 | The B value |
+| RGB/HSV Flag | 24 | 1 Bit | boolean | **Must be 0** |
+| Reserved Flags | 25 | 7 Bits | NA | Reserved for future implementation |
+</Tabs.Tab>
+<Tabs.Tab>
+| Field | Start Bit | Data Length | Data Type | Description |
+| :- | :-: | :-: | :-: | :- |
+| H value | 0 | 1 Byte | uint8 | The H value |
+| S value | 8 | 1 Byte | uint8 | The S value |
+| V value | 16 | 1 Byte | uint8 | The V value |
+| RGB/HSV Flag | 24 | 1 Bit | boolean | **Must be 1** |
+| Reserved Flags | 25 | 7 Bits | NA | Reserved for future implementation |
+</Tabs.Tab>
+</Tabs>

@@ -40,7 +40,7 @@ const customMDX = {
         return img;
     },
     a: (href: { href: string, children: string }) => {
-        var external = !(href.href.startsWith("/") || href.href.startsWith("./") || href.href.startsWith("#") || href.href.includes("aurorabotics.com") || href.href.startsWith("localhost"));
+        var external = !(href.href.startsWith("/") || href.href.startsWith(".") || href.href.startsWith("#") || href.href.includes("aurorabotics.com") || href.href.startsWith("localhost"));
         return (
             <Link
                 // isBlock

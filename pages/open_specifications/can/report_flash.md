@@ -12,13 +12,7 @@ The **Report Flash Frame** will report the data stored in flash. This frame is a
 
 ## Flags
 
-| Bit | Flag | If False | If True |
+| Bits | Flag | If False | If True |
 | :- | :- | :- | :- |
-| 0 | Ephemeral | Data transmitted is percistent & written to flash. | Data transmitted is ephemeral, and not written to flash. |
-| 1 | Reserved | Reserved for future implementation. | Reserved for future implementation. |
-| 2 | Reserved | Reserved for future implementation. | Reserved for future implementation. |
-| 3 | Reserved | Reserved for future implementation. | Reserved for future implementation. |
-| 4 | Reserved | Reserved for future implementation. | Reserved for future implementation. |
-| 5 | Reserved | Reserved for future implementation. | Reserved for future implementation. |
-| 6 | Reserved | Reserved for future implementation. | Reserved for future implementation. |
-| 7 | Reserved | Reserved for future implementation. | Reserved for future implementation. |
+| 0 | Ephemeral | Data transmitted is persistent & written to flash. | Data transmitted is ephemeral, and not written to flash. |
+| 1-7 | Reserved | Reserved for future implementation. | Reserved for future implementation. |

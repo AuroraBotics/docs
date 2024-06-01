@@ -1,15 +1,14 @@
 {
-  "index": {
-    "title": "Welcome",
+  "*": {
     "theme": {
       "breadcrumb": false
     }
   },
-
+  "index": "Welcome",
   "--- devices": {
     "type": "separator",
     "title": "Product Documentation"
   },
   "lumina": "Lumina",
-  "open_specifications": "Open Specifications"
+  "open_specifications": "Open-Source Standard Interface Specifications"
 }

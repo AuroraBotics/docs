@@ -1,11 +1,15 @@
 {
-    "--- Frames": {
-        "title": "CAN Frames",
+    "--- device control": {
+        "title": "API Class: Device Control",
         "type": "separator"
     },
     "status": "Status",
     "identify": "Identify",
     "clear_faults": "Clear Faults",
+    "--- flash control": {
+        "title": "API Class: Flash Control",
+        "type": "separator"
+    },
     "set_flash": "Set Flash",
     "get_flash": "Get Flash",
     "report_flash": "Report Flash",

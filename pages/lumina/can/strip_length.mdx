@@ -1,0 +1,16 @@
+# Set Strip Length / Get Strip Length Frames
+
+The Set Strip Length and Get Strip Length Frames are used to control the strip length used by Lumina.
+
+The Set and Get frames use different API indices, be sure to check [CAN](../can) for more info, the data for these frames however, is the same.
+
+## Data
+
+import { Callout } from "nextra/components";
+
+<Callout type="info">Note that only remote frames contain data, RTR frames will have zero data.</Callout>
+
+| Field | Start Bit | Data Length | Description |
+| :- | :-: | :-: | :- |
+| LED Strip Length | 0 | 2 Bytes | The length (uint16) of LED strip |
+
